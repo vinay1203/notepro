@@ -1,5 +1,7 @@
+from os import mkdir
 from flask import Flask, render_template
 from flask import request, redirect, url_for
+from flask import session
 from flask_sqlalchemy import SQLAlchemy 
 from bcrypt import hashpw, gensalt
 
@@ -9,6 +11,7 @@ fle.close()
 
 #reading DB properties from the file
 app=Flask(__name__)
+app.config['SECRET_KEY']='e5ac358c-f0bf-11e5-9e39-d3b532c10a28'
 app.config["SQLALCHEMY_DATABASE_URI"] = property
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
@@ -31,6 +34,7 @@ def convert(pas):
 	pas=pas.encode()
 	new_pas=hashpw(pas, gensalt())
 	return new_pas
+
 
 #Main Page for the site
 @app.route("/")
@@ -58,19 +62,25 @@ def register():
 @app.route('/validate', methods=["POST"])
 def validate():
 	userName=request.form['username']
+	session['user']=userName
 	password=request.form['password']
 	pass1=Users.query.filter_by(username=userName).first()
-	password=password.encode('utf-8')
-	db_pass=pass1.password.encode()
-	if hashpw(password, db_pass)==db_pass:
-		return redirect(url_for('home_page'))
-	else:
+	if pass1==None:
 		return render_template('foff.html')
+	else:
+		password=password.encode('utf-8')
+		db_pass=pass1.password.encode()
+		if hashpw(password, db_pass)==db_pass:
+			return redirect(url_for('home_page'))
+		else:
+			return render_template('foff.html')
 
 
-@app.route('/home')
+@app.route('/home/')
 def home_page():
-	return render_template('home.html')
+	user=session.get('user')
+	return render_template('home.html', user=user)
+
 
 if __name__=="__main__":
 	app.run(host="localhost", port=5003, debug=True)

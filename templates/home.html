@@ -2,9 +2,19 @@
 <html>
 <head>
 	<title>Home Page</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
 
-<h3 style="text-align: center; font-weight: 866;"> Welcome Home Human </h3>
+<div id="container">
+	<h3> Welcome Home {{ user }} </h3>
+
+	<div class="home">
+		<form method="get" action="{{ url_for('notes) }}">
+			<p> Please name the file to be saved in </p>
+			<input type="text" name="file_name"><p id="someth"> .txt </p>
+		</form>
+	</div>
+</div>
 </body>
 </html>

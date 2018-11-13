@@ -14,7 +14,7 @@
 		<form method="POST" action="{{ url_for('register') }}">
 			<input type="text" name="username" placeholder="Username.." onfocus="this.placeholder=''">
 			<input type="email" name="email" placeholder="Email" onfocus="this.placeholder=''">
-			<input type="password" name="password" placeholder="Password" onfocus="this.placeholder=''">
+			<input type="password" name="password" placeholder="Password" onfocus="this.placeholder=''" minlength="6">
 			<input type="submit" id="submit" value="LOGIN">
 		</form>
 
