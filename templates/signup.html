@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Simple note project</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signin.css') }}">
+</head>
+
+<body>
+
+	<div class="container">
+		<h3> Welcome Human!</h3>
+
+		<form method="POST" action="{{ url_for('register') }}">
+			<input type="text" name="username" placeholder="Username.." onfocus="this.placeholder=''">
+			<input type="email" name="email" placeholder="Email" onfocus="this.placeholder=''">
+			<input type="password" name="password" placeholder="Password" onfocus="this.placeholder=''">
+			<input type="submit" id="submit" value="LOGIN">
+		</form>
+
+		<p> </p> 
+	</div>
+</body>
+</html>
