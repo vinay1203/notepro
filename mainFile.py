@@ -75,7 +75,8 @@ def validate():
 		else:
 			return render_template('foff.html')
 
-
+#Displaying the home page for the user.
+#creating a directory "senotes" in the home folder of the user and stores files 
 @app.route('/home')
 def home_page():
 	user=session.get('user')
@@ -95,6 +96,7 @@ def home_page():
 		no_files="em"
 		return render_template('home.html', user=user, no_files=no_files, files=files)
 
+#Presents the user with a file where he can make changes
 @app.route('/notes/', methods=["GET"])
 def notes():
 	fileName=""
@@ -106,6 +108,7 @@ def notes():
 	#open_file=open(fileName,'w')
 	return render_template('notes.html', user=user, fle_name=fle_name)
 
+#The textarea data is stored in the file as the user specifies
 @app.route("/save_notes/<fileName>", methods=["POST"])
 def save_notes(fileName):
 	os.chdir(os.path.expanduser("~")+"/senotes/")
