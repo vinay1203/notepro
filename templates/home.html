@@ -10,11 +10,19 @@
 	<h3> Welcome Home {{ user }} </h3>
 
 	<div class="home">
-		<form method="get" action="{{ url_for('notes) }}">
-			<p> Please name the file to be saved in </p>
-			<input type="text" name="file_name"><p id="someth"> .txt </p>
+		<p> Please name the file to be saved in </p>
+		<form method="get" action="{{ url_for('notes') }}">
+			<input type="text" name="file_name"> <p id="someth"> .txt </p>
 		</form>
 	</div>
+
+	{% if no_files=="noem" %}
+		<p> No files are there in the directory </p>
+	{% else %}
+		{% for file in files %}
+		<p id="pleft">{{ file }}</p>
+		{% endfor %}
+	{% endif %}
 </div>
 </body>
 </html>

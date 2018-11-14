@@ -1,4 +1,4 @@
-from os import mkdir
+import os
 from flask import Flask, render_template
 from flask import request, redirect, url_for
 from flask import session
@@ -76,11 +76,44 @@ def validate():
 			return render_template('foff.html')
 
 
-@app.route('/home/')
+@app.route('/home')
 def home_page():
 	user=session.get('user')
-	return render_template('home.html', user=user)
+	home=os.path.expanduser("~")
+	os.chdir(home)
+	if os.path.exists('senotes') and os.path.isdir('senotes'):
+		os.chdir('senotes')
+	else:
+		os.mkdir('senotes')
+		os.chdir('senotes')
 
+	files=os.listdir()
+	if len(files)==0:
+		no_files="noem"
+		return render_template('home.html', user=user, no_files=no_files)
+	else:
+		no_files="em"
+		return render_template('home.html', user=user, no_files=no_files, files=files)
+
+@app.route('/notes/', methods=["GET"])
+def notes():
+	fileName=""
+	home=os.path.expanduser("~")+ "/senotes/"
+	os.chdir(home)
+	fle_name=request.args.get('file_name')
+	user=session.get('user')
+	fileName=home+fle_name+".txt"
+	#open_file=open(fileName,'w')
+	return render_template('notes.html', user=user, fle_name=fle_name)
+
+@app.route("/save_notes/<fileName>", methods=["POST"])
+def save_notes(fileName):
+	os.chdir(os.path.expanduser("~")+"/senotes/")
+	content=request.form['content']
+	open_fle= open(fileName, 'a')
+	open_fle.write(content)
+	open_fle.close()
+	return render_template('saved_note.html')
 
 if __name__=="__main__":
 	app.run(host="localhost", port=5003, debug=True)

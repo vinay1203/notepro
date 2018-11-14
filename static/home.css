@@ -54,3 +54,10 @@ input:focus
 {
 	display:inline;
 }
+
+#pleft
+{
+	padding: 2px;
+	margin-left:2px;
+	font-size: 12px;
+}
